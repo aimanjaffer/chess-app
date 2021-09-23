@@ -9,6 +9,8 @@ export default function Row (props){
                     color={square.color} 
                     isOccupied={square.isOccupied} 
                     piece = {square.piece}
+                    pieceTouched= {props.pieceTouched}
+                    emptySquareTouched={props.emptySquareTouched}
                     />)}
                 </div>
     );

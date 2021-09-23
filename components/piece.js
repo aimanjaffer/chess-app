@@ -1,8 +1,5 @@
 import Image from 'next/image';
 export default function Piece (props){
-    function pieceClicked(color, type, row, col){
-        console.log(color + " "+ type + " was clicked at: ("+ row+","+col+")");
-    }
     let iconpath ="/icons/";
     props.color === "black" ? iconpath += "b" : iconpath+="w";
     switch(props.type){
@@ -26,7 +23,7 @@ export default function Piece (props){
             break;
     } 
     return (
-    <div className="text-center" onClick={() => pieceClicked(props.color, props.type, props.row, props.col)}>
+    <div className="text-center" onClick={() => props.pieceTouched(props.color, props.type, props.row, props.col, props.hasMoved)}>
         <Image src={iconpath} alt="me" width="64" height="64" />
     </div>
     );

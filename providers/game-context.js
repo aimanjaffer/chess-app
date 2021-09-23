@@ -7,7 +7,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "rook",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },{
         row: 0,
@@ -16,7 +17,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "knight",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },{
         row: 0,
@@ -25,7 +27,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "bishop",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },{ 
         row: 0,
@@ -34,7 +37,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "queen",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },{
         row: 0,
@@ -43,7 +47,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "king",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },
     {   row:0,
@@ -52,7 +57,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "bishop",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },
     {
@@ -62,7 +68,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "knight",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     },
     {
@@ -72,7 +79,8 @@ export let initialBoardState = [
         isOccupied: true,
         piece: {
             type: "rook",
-            color: "white"
+            color: "white",
+            hasMoved: false
         }
     }],
 [{   row: 1,
@@ -81,7 +89,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {   row:1,
@@ -90,7 +99,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {   row:1,
@@ -99,7 +109,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {
@@ -109,7 +120,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {   row:1,
@@ -118,7 +130,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {   row:1,
@@ -127,7 +140,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {   row:1,
@@ -136,7 +150,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 },
 {   row:1,
@@ -145,7 +160,8 @@ export let initialBoardState = [
     isOccupied: true,
     piece: {
         type: "pawn",
-        color: "white"
+        color: "white",
+        hasMoved: false
     }
 }],
 [{
@@ -347,7 +363,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -356,7 +373,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -365,7 +383,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -374,7 +393,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -383,7 +403,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -392,7 +413,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -401,7 +423,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 },
 {
@@ -410,7 +433,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"pawn"
+		type:"pawn",
+        hasMoved: false
 	}
 }],[
 {
@@ -419,7 +443,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"rook"
+		type:"rook",
+        hasMoved: false
 	}
 },
 {
@@ -428,7 +453,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"knight"
+		type:"knight",
+        hasMoved: false
 	}
 },
 {
@@ -437,7 +463,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"bishop"
+		type:"bishop",
+        hasMoved: false
 	}
 },
 {
@@ -446,7 +473,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"queen"
+		type:"queen",
+        hasMoved: false
 	}
 },
 {
@@ -455,7 +483,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"king"
+		type:"king",
+        hasMoved: false
 	}
 },
 {
@@ -464,7 +493,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"bishop"
+		type:"bishop",
+        hasMoved: false
 	}
 },
 {
@@ -473,7 +503,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"knight"
+		type:"knight",
+        hasMoved: false
 	}
 },
 {
@@ -482,7 +513,8 @@ export let initialBoardState = [
     isOccupied: "false",
     piece: {
 		color:"black",
-		type:"rook"
+		type:"rook",
+        hasMoved: false
 	}
 }]]; 
 export const GameContext = React.createContext({
