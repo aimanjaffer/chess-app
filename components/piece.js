@@ -24,7 +24,7 @@ export default function Piece (props){
     } 
     return (
     <div className="text-center" onClick={() => props.pieceTouched(props.color, props.type, props.row, props.col, props.hasMoved)}>
-        <Image src={iconpath} alt="me" width="64" height="64" />
+        <Image src={iconpath} alt="me" width="80" height="80" />
     </div>
     );
 }

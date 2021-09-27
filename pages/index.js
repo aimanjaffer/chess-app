@@ -7,9 +7,9 @@ export default function Home() {
         <title>Chess App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto border-8 border-black">
+      
       <Game/>
-      </div>     
+          
      </>
   )
 }
