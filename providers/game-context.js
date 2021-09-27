@@ -172,193 +172,225 @@ export let initialBoardState = [
     piece: {}
 },
 {
-    number: 17,
+    row:2,
+    col:1,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 18,
+    row:2,
+    col:2,
     color: "black",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 19,
+    row:2,
+    col:3,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 20,
+    row:2,
+    col:4,
     color: "black",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 21,
+    row:2,
+    col:5,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 22,
+    row:2,
+    col:6,
     color: "black",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 23,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-}],
-[{
-    number: 24,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 25,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 26,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 27,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 28,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 29,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 30,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 31,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-}],
-[{
-    number: 32,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 33,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 34,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 35,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 36,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 37,
-    color: "white",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 38,
-    color: "black",
-    isOccupied: false,
-    piece: {}
-},
-{
-    number: 39,
+    row:2,
+    col:7,
     color: "white",
     isOccupied: false,
     piece: {}
 }],
 [{
-    number: 40,
+    row:3,
+    col:0,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 41,
+    row:3,
+    col:1,
     color: "black",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 42,
+    row:3,
+    col:2,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 43,
+    row:3,
+    col:3,
     color: "black",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 44,
+    row:3,
+    col:4,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 45,
+    row:3,
+    col:5,
     color: "black",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 46,
+    row:3,
+    col:6,
     color: "white",
     isOccupied: false,
     piece: {}
 },
 {
-    number: 47,
+    row:3,
+    col:7,
     color: "black",
     isOccupied: false,
     piece: {}
 }],
 [{
-    number: 48,
+    row:4,
+    col:0,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:1,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:2,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:3,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:4,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:5,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:6,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:4,
+    col:7,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+}],
+[{
+    row:5,
+    col:0,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:1,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:2,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:3,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:4,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:5,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:6,
+    color: "white",
+    isOccupied: false,
+    piece: {}
+},
+{
+    row:5,
+    col:7,
+    color: "black",
+    isOccupied: false,
+    piece: {}
+}],
+[{
+    row:6,
+    col:0,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -368,7 +400,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 49,
+    row:6,
+    col:1,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -378,7 +411,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 50,
+    row:6,
+    col:2,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -388,7 +422,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 51,
+    row:6,
+    col:3,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -398,7 +433,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 52,
+    row:6,
+    col:4,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -408,7 +444,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 53,
+    row:6,
+    col:5,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -418,7 +455,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 54,
+    row:6,
+    col:6,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -428,7 +466,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 55,
+    row:6,
+    col:7,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -438,7 +477,8 @@ export let initialBoardState = [
 	}
 }],[
 {
-    number: 56,
+    row:7,
+    col:0,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -448,7 +488,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 57,
+    row:7,
+    col:1,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -458,7 +499,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 58,
+    row:7,
+    col:2,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -468,7 +510,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 59,
+    row:7,
+    col:3,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -478,7 +521,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 60,
+    row:7,
+    col:4,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -488,7 +532,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 61,
+    row:7,
+    col:5,
     color: "black",
     isOccupied: "false",
     piece: {
@@ -498,7 +543,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 62,
+    row:7,
+    col:6,
     color: "white",
     isOccupied: "false",
     piece: {
@@ -508,7 +554,8 @@ export let initialBoardState = [
 	}
 },
 {
-    number: 63,
+    row:7,
+    col:7,
     color: "black",
     isOccupied: "false",
     piece: {
