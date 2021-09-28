@@ -1,7 +1,7 @@
 import Board from "./board";
 import {useEffect, useState} from "react";
 import { initialBoardState } from "../providers/game-context";
-import { io } from "socket.io-client";
+
 const Game = (props) =>{
     const [isOngoing, setIsOngoing] = useState(false);
     const [isStarted, setIsStarted] = useState(false);
@@ -9,36 +9,27 @@ const Game = (props) =>{
     const [turn, setTurn] = useState("white");
     const [playerColor, setPlayerColor] = useState("white");
     const [pieceInHand, setPieceInHand] = useState();
-    const [gameId, setGameId] = useState("abcd");
-    const [socket, setSocket] = useState(null);
-    useEffect(()=>{
-        const newSocket = io("ws://localhost:3001", {
-            reconnectionDelayMax: 10000        
-        });
-        setSocket(newSocket);
-        return () => newSocket.close();
-    }, [setSocket]);
-
-
+    const [gameId, setGameId] = useState("abcd"); //TODO: make a call to server to set this once challenge functionality is ready
+ 
         useEffect(()=>{
-        if(socket !== null){
-            socket.on("connect", () => {
+        if(props.socket !== null){
+            props.socket.on("connect", () => {
                 //console.log(socket.id);
-                socket.emit("create-new-or-join-existing-game",{
+                props.socket.emit("create-new-or-join-existing-game",{
                     gameId: gameId
                 });
               });
-            socket.on("playerColorSet", (message)=>{
+            props.socket.on("playerColorSet", (message)=>{
                 //console.log("player color from websocket server");
                 setPlayerColor(message.playerColor);
             });
-            socket.on("opponentMovedPiece", (message)=>{
+            props.socket.on("opponentMovedPiece", (message)=>{
                 //console.log("opponent moved piece");
                 setBoardState(message.boardState);
                 setTurn(message.turn);
             });
         }
-    },[socket]);
+    },[props.socket]);
         
     const pieceTouched = (color, type, row, col, hasMoved) => {
         //console.log(color + " "+ type + " was clicked at: ("+ row+","+col+")");
@@ -79,7 +70,7 @@ const Game = (props) =>{
                         .then(response => {
                             setBoardState(response.boardState);
                             setTurn(response.turn);
-                            socket.emit("movedPiece", {
+                            props.socket.emit("movedPiece", {
                                 gameId: gameId,
                                 playerColor: playerColor,
                                 boardState: response.boardState,
@@ -117,7 +108,7 @@ const Game = (props) =>{
                 .then(response => {
                     setBoardState(response.boardState);
                     setTurn(response.turn);
-                    socket.emit("movedPiece", {
+                    props.socket.emit("movedPiece", {
                         gameId: gameId,
                         playerColor: playerColor,
                         boardState: response.boardState,
@@ -131,9 +122,12 @@ const Game = (props) =>{
     
     return (
     <>
+    <h1>Opponent Name / Email displayed here</h1>
+    <h1>Game status displayed here</h1>
     <div className="container mx-auto border-8 border-black">
     <Board boardState={boardState} pieceTouched={pieceTouched} emptySquareTouched={emptySquareTouched} playerColor={playerColor}/>
-    </div> 
+    </div>
+    <h1>Our players Name / Email displayed here</h1>
     {playerColor === turn ? <div>Your turn. Please make a move.</div> : <div>Opponent's turn. Please wait.</div>}
     </>
     );
