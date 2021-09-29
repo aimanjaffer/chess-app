@@ -6,13 +6,21 @@ import { signOut } from "next-auth/client";
 import AvailableUsers from '../components/available-users';
 import { useEffect, useState } from 'react';
 import { io } from "socket.io-client";
+import { initialBoardState } from "../providers/game-context";
 export default function Home() {
   const [session] = useSession();
   if(!session)
     return <Login/>;
+
   const [notifications, setNotifications] = useState([]);
-  let newNotificationId = 0;
+  const [gameId, setGameId] = useState();
+  const [playerColor, setPlayerColor] = useState("");
+  const [boardState, setBoardState] = useState(initialBoardState);
+  const [turn, setTurn] = useState("white");
+  const [userEmails, setUserEmails] = useState([]);
   const [socket, setSocket] = useState(null);
+  let newNotificationId = 0;
+  
   useEffect(()=>{
     const newSocket = io("ws://localhost:3001", {
         reconnectionDelayMax: 10000        
@@ -21,12 +29,16 @@ export default function Home() {
     return () => newSocket.close();
   }, [setSocket]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if(socket != null){
+      socket.on("connect", () => {
+        //console.log(socket.id," connected");
+        socket.emit("get-available-players");
+      });
       socket.emit("register-client", {
         email: session.user.email
       });
-      socket.on("new-challenge-received", (message)=>{
+      socket.on("new-challenge-received", (message)=> {
         newNotificationId += 1;
         let newNotification = {
           id: newNotificationId,
@@ -36,6 +48,22 @@ export default function Home() {
           return [...notifications, newNotification];
         });
       });
+      socket.on("new-game-created", (message) => {
+        setPlayerColor(message.playerColor);
+        setGameId(message.gameId);
+      });
+      socket.on("new-game-request-rejected", (message) => {
+        console.log("Request rejected by: ", message.responder);
+      });
+      socket.on("opponentMovedPiece", (message)=>{
+        //console.log("opponent moved piece");
+        setBoardState(message.boardState);
+        setTurn(message.turn);
+    });
+    socket.on("available-players-received", (message) => {
+        let result = message.emails.filter((email) => email !== session.user.email);
+        setUserEmails(result);
+    });
     }
   },[socket]);
 
@@ -50,16 +78,22 @@ export default function Home() {
       switch(state){
         case "accept":
           console.log("accepting challenge from: ", challengeSender);
-          /*
-          make an API call to the server to start a new game 
-          Server sends back the new game ID
-          Send that game ID as part of the websocket emit, 
-          update game ID to the value received from the server and pass the game ID as a prop to Game Component
-          */
-          socket.emit("challenge-accepted", {
+          let messageBody = {
             responder: session.user.email,
             challengeSender
-          });
+          };
+          const requestOptions = {
+            method: "POST",
+            body: JSON.stringify(messageBody)
+          };
+          fetch('/api/createGame', requestOptions)
+          .then(response => response.json())
+          .then(response => {
+            console.log(response.gameId);
+            socket.emit("challenge-accepted", {...messageBody, gameId: response.gameId, playerColor: response.playerColor});
+            setPlayerColor(response.playerColor);
+            setGameId(response.gameId);
+          });          
           break;
         case "reject":
           console.log("rejecting challenge from: ", challengeSender);
@@ -70,6 +104,10 @@ export default function Home() {
           break;
       }
     }
+  }
+  function setTurnAndBoardState(turn, boardState){
+    setTurn(turn);
+    setBoardState(boardState);
   }
 
   return (
@@ -86,17 +124,22 @@ export default function Home() {
            return (
            <li key={notification.id}>
             <p>New challenge received from: {notification.sender}</p>
-            <button onClick={()=> challengeHandler("accept", notification.sender)}>Accept</button>
-            <button onClick={()=> challengeHandler("reject", notification.sender)}>Reject</button>
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={()=> challengeHandler("accept", notification.sender)}>Accept</button>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={()=> challengeHandler("reject", notification.sender)}>Reject</button>
            </li>);
          })}
       </ul>
       }
-      <AvailableUsers session={session} socket={socket}/> {/*TODO: Show this only if user has no game ongoing */}
-      <Game socket={socket}/> {/*TODO: Show this only if game is created and ongoing */}
+      {!gameId && <AvailableUsers session={session} socket={socket} userEmails={userEmails}/>}
+      {gameId && <Game socket={socket} 
+      gameId={gameId} 
+      playerColor={playerColor}
+      boardState={boardState}
+      turn={turn}
+      setTurnAndBoardState={setTurnAndBoardState}/>} 
       <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={signOutHandler}>Sign out</button>    
      </>
-  )
+  );
 }
 export async function getServerSideProps(context){
   const session = await getSession(context);
