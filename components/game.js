@@ -6,7 +6,19 @@ const Game = (props) =>{
     const [isOngoing, setIsOngoing] = useState(false);
     const [isStarted, setIsStarted] = useState(false);
     const [pieceInHand, setPieceInHand] = useState();
-         
+    const [highlightedSquares, setHighlightedSquares] = useState([]);
+    useEffect(() => {
+        if(pieceInHand){
+            const requestOptions = {
+                method:"POST",
+                body: JSON.stringify({boardState: props.boardState, pieceInHand})
+            }
+            fetch('/api/getValidMoves', requestOptions)
+            .then(response => response.json())
+            .then(response => setHighlightedSquares(response.possibleSquares));
+        }
+    }, [pieceInHand]);
+
     const pieceTouched = (color, type, row, col, hasMoved) => {
         //console.log(color + " "+ type + " was clicked at: ("+ row+","+col+")");
         if(props.turn === props.playerColor){
@@ -18,10 +30,10 @@ const Game = (props) =>{
                     row: row,
                     col: col
                 });
-                //TODO: get all valid moves with that piece and highlight the squares
             }else{
                 if(pieceInHand){
                     //console.log("Move registered");
+                    if(highlightedSquares.filter((highlightedSquare) => highlightedSquare.row === row && highlightedSquare.col === col).length > 0){
                         const messageBody = {
                             isOngoing: isOngoing,
                             isStarted: isStarted,
@@ -41,7 +53,7 @@ const Game = (props) =>{
                             method: "POST",
                             body: JSON.stringify(messageBody)
                         };
-                        fetch('/api/hello', requestOptions)
+                        fetch('/api/movePiece', requestOptions)
                         .then(response => response.json())
                         .then(response => {
                             props.setTurnAndBoardState(response.turn, response.boardState);
@@ -51,9 +63,11 @@ const Game = (props) =>{
                                 boardState: response.boardState,
                                 turn: response.turn
                             });
-                        })
-                        .then(setPieceInHand(undefined));
-                        
+                        }).then(()=>{
+                            setPieceInHand(undefined);
+                            setHighlightedSquares([]);
+                        });
+                    }     
                 }            
             }
         }
@@ -61,6 +75,7 @@ const Game = (props) =>{
     const emptySquareTouched = (color, row, col) => {
         if((props.turn === props.playerColor) && pieceInHand){
             //console.log("Move registered");
+            if(highlightedSquares.filter((highlightedSquare) => highlightedSquare.row === row && highlightedSquare.col === col).length > 0){
                 const messageBody = {
                     isOngoing: isOngoing,
                     isStarted: isStarted,
@@ -78,7 +93,7 @@ const Game = (props) =>{
                     method: "POST",
                     body: JSON.stringify(messageBody)
                 };
-                fetch('/api/hello', requestOptions)
+                fetch('/api/movePiece', requestOptions)
                 .then(response => response.json())
                 .then(response => {
                     props.setTurnAndBoardState(response.turn, response.boardState);
@@ -89,8 +104,11 @@ const Game = (props) =>{
                         turn: response.turn
                     });
                 })
-                .then(setPieceInHand(undefined));
-                
+                .then(()=>{
+                    setPieceInHand(undefined);
+                    setHighlightedSquares([]);
+                });
+            }     
         }
     }
     
@@ -99,7 +117,7 @@ const Game = (props) =>{
     <h1>Opponent Name / Email displayed here</h1>
     <h1>Game status displayed here</h1>
     <div className="container mx-auto border-8 border-black">
-    <Board boardState={props.boardState} pieceTouched={pieceTouched} emptySquareTouched={emptySquareTouched} playerColor={props.playerColor}/>
+    <Board boardState={props.boardState} pieceTouched={pieceTouched} emptySquareTouched={emptySquareTouched} playerColor={props.playerColor} highlightedSquares={highlightedSquares}/>
     </div>
     <h1>Our players Name / Email displayed here</h1>
     {props.playerColor === props.turn ? <div>Your turn. Please make a move.</div> : <div>Opponent's turn. Please wait.</div>}

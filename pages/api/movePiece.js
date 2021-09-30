@@ -1,6 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
-export default function helloAPI(req, res) {
+export default function movePieceAPI(req, res) {
   let request = JSON.parse(req.body);
   let boardState = request.boardState;
   let square1 = request.square1;

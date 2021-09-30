@@ -16,6 +16,8 @@ export default function Row (props){
                     piece = {square.piece}
                     pieceTouched= {props.pieceTouched}
                     emptySquareTouched={props.emptySquareTouched}
+                    highlighted={props.highlightedSquares.filter((highlightedSquare) => (highlightedSquare.row === square.row) && (highlightedSquare.col === square.col)
+                    ).length > 0}
                     />)}
                 </div>
     );

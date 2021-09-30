@@ -13,6 +13,7 @@ export default function Board (props){
     pieceTouched={props.pieceTouched}
     emptySquareTouched={props.emptySquareTouched}
     playerColor={props.playerColor}
+    highlightedSquares={props.highlightedSquares}
     />)}
     </div>
     );
