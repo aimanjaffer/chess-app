@@ -605,8 +605,7 @@ function findPieceOnBoard(pieceColor, pieceType, boardState){
     return [];
 }
 
-function countAllValidMoves(playerColor, boardState){
-    //For each piece left of ours check if it has any valid moves and return the count
+function hasValidMoves(playerColor, boardState){
     let validMoveCount = 0;
     for(let i = 0; i < 8; i++){
         for(let j = 0; j < 8; j++){
@@ -619,11 +618,13 @@ function countAllValidMoves(playerColor, boardState){
                     row: i,
                     col: j
                 };
-                validMoveCount += getMovesForPiece(boardState, i, j, playerColor, pieceInHand, square.piece.hasMoved, square.piece.type).length; 
+                validMoveCount += getMovesForPiece(boardState, i, j, playerColor, pieceInHand, square.piece.hasMoved, square.piece.type).length;
+                if(validMoveCount > 0)
+                    return true; 
             }
         }
     }
-    return validMoveCount;
+    return false;
 }
 
 // returns the new board state after moving piece at square1 to square2
@@ -646,15 +647,13 @@ function countAllValidMoves(playerColor, boardState){
  }
 
  function isPlayerUnderCheckMate(playerColor, boardState){
-     //console.log("# of valid moves: ", countAllValidMoves(playerColor, boardState));
-    if(isPlayerUnderCheck(playerColor, boardState) && (countAllValidMoves(playerColor, boardState) === 0)){
+    if(isPlayerUnderCheck(playerColor, boardState) && !(hasValidMoves(playerColor, boardState))){
         console.log(playerColor, "is in checkmate");
     }
  }
 
  function isPlayerUnderStaleMate(playerColor, boardState){
-    //console.log("# of valid moves: ", countAllValidMoves(playerColor, boardState));
-    if(!isPlayerUnderCheck(playerColor, boardState) && (countAllValidMoves(playerColor, boardState) === 0)){
+    if(!isPlayerUnderCheck(playerColor, boardState) && !(hasValidMoves(playerColor, boardState))){
         console.log(playerColor, "is in stalemate");
     }    
  }
