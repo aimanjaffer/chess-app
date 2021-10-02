@@ -1,3 +1,4 @@
+export {isPlayerUnderCheckMate, isPlayerUnderStaleMate, findPieceOnBoard};
 export default function getValidMovesAPI(req, res) {
     // return a list of {row,col} objects representing possible squares the piece can move to
     let request = JSON.parse(req.body);
@@ -8,13 +9,14 @@ export default function getValidMovesAPI(req, res) {
     let pieceHasMoved = request.pieceInHand.hasMoved;   
     let pieceRow = request.pieceInHand.row;
     let pieceCol = request.pieceInHand.col;
+    let possibleSquares = [];
     //prevent moving pieces that will put the king in check
     //prevent king from moving to a square next to opponent king
     //TODO: castling, en passant, pawn promotion
     //handle double check, check mate, stalemate
-    isPlayerUnderCheckMate(pieceColor, boardState);
-    isPlayerUnderStaleMate(pieceColor, boardState);
-    let possibleSquares = getMovesForPiece(boardState, pieceRow, pieceCol, pieceColor, pieceInHand, pieceHasMoved, pieceType);
+    if(hasValidMoves(pieceColor, boardState)){
+        possibleSquares = getMovesForPiece(boardState, pieceRow, pieceCol, pieceColor, pieceInHand, pieceHasMoved, pieceType);
+    }
     return res.status(200).json({
         possibleSquares: possibleSquares
     });
@@ -472,10 +474,84 @@ function isPieceAttackingOpponentKing(square, boardState){
             return isKingAttackedDiagonally(boardState, pieceRow, pieceCol, pieceColor);
         case "rook":
             return isKingAttackedHorizontallyVertically(boardState, pieceRow, pieceCol, pieceColor);
+        case "knight":
+            return isKingAttackedByKnight(boardState, pieceRow, pieceCol, pieceColor);
+        case "king":
+            return isKingAttackedByKing(boardState, pieceRow, pieceCol, pieceColor);
     }
     //console.log("exiting isPieceAttackingOpponentKing");
 }
-
+function isKingAttackedByKing(boardState, pieceRow, pieceCol, pieceColor){
+    let upOne = boardState[pieceRow+1]?.[pieceCol];
+    let downOne = boardState[pieceRow-1]?.[pieceCol];
+    let leftOne = boardState[pieceRow]?.[pieceCol-1];
+    let rightOne = boardState[pieceRow]?.[pieceCol+1];
+    let leftDiagonalUpOne = boardState[pieceRow+1]?.[pieceCol-1];
+    let rightDiagonalUpOne = boardState[pieceRow+1]?.[pieceCol+1];
+    let leftDiagonalDownOne = boardState[pieceRow-1]?.[pieceCol+1];
+    let rightDiagonalDownOne = boardState[pieceRow-1]?.[pieceCol-1];
+    
+    if(upOne &&  (upOne.piece.color !== pieceColor && upOne.piece.type === "king")){
+        return true;
+    }
+    if(downOne && (downOne.piece.color !== pieceColor && downOne.piece.type === "king")){
+        return true;
+    }
+    if(leftOne && (leftOne.piece.color !== pieceColor && leftOne.piece.type === "king")){
+        return true;
+    }
+    if(rightOne && (rightOne.piece.color !== pieceColor && rightOne.piece.type === "king")){
+        return true;
+    }
+    if(leftDiagonalUpOne && (leftDiagonalUpOne.piece.color !== pieceColor && leftDiagonalUpOne.piece.type === "king")){
+        return true;
+    }
+    if(rightDiagonalUpOne && (rightDiagonalUpOne.piece.color !== pieceColor && rightDiagonalUpOne.piece.type === "king")){
+        return true;
+    }
+    if(leftDiagonalDownOne && (leftDiagonalDownOne.piece.color !== pieceColor && leftDiagonalDownOne.piece.type === "king")){
+        return true;
+    }
+    if(rightDiagonalDownOne && (rightDiagonalDownOne.piece.color !== pieceColor && rightDiagonalDownOne.piece.type === "king")){
+        return true;
+    }
+    return false;
+}
+function isKingAttackedByKnight(boardState, pieceRow, pieceCol, pieceColor){
+    let leftUp = boardState[pieceRow+2]?.[pieceCol-1];
+    let leftDown = boardState[pieceRow-2]?.[pieceCol-1];
+    let rightUp = boardState[pieceRow+2]?.[pieceCol+1];
+    let rightDown = boardState[pieceRow-2]?.[pieceCol+1];
+    let upLeft = boardState[pieceRow+1]?.[pieceCol-2];
+    let downLeft = boardState[pieceRow-1]?.[pieceCol-2];
+    let upRight = boardState[pieceRow+1]?.[pieceCol+2];
+    let downRight = boardState[pieceRow-1]?.[pieceCol+2];
+    if(leftUp && (leftUp.piece.color !== pieceColor && leftUp.piece.type === "king")){
+            return true;
+    }
+    if(leftDown && (leftDown.piece.color !== pieceColor && leftDown.piece.type === "king")){
+            return true;
+    }    
+    if(rightUp && (rightUp.piece.color !== pieceColor && rightUp.piece.type === "king")){
+            return true;
+    }
+    if(rightDown && (rightDown.piece.color !== pieceColor && rightDown.piece.type === "king")){
+            return true;
+    }
+    if(upLeft && (upLeft.piece.color !== pieceColor && upLeft.piece.type === "king")){
+            return true;
+    }  
+    if(downLeft && (downLeft.piece.color !== pieceColor && downLeft.piece.type === "king")){
+            return true;
+    }
+    if(upRight && (upRight.piece.color !== pieceColor && upRight.piece.type === "king")){
+            return true;
+    }    
+    if(downRight && (downRight.piece.color !== pieceColor && downRight.piece.type === "king")){
+            return true;
+    }
+    return false;    
+}
 function isKingAttackedDiagonally(boardState, pieceRow, pieceCol, pieceColor){
     let x = pieceCol + 1;
     let y = pieceRow + 1;
@@ -596,7 +672,7 @@ function isKingAttackedHorizontallyVertically(boardState, pieceRow, pieceCol, pi
 
 function findPieceOnBoard(pieceColor, pieceType, boardState){
 	for(let row in boardState){
-        console.log(boardState[row]);
+        //console.log(boardState[row]);
         let square = boardState[row].filter((square) => square.isOccupied && square.piece.type === pieceType && square.piece.color === pieceColor);
         if(square.length > 0){
             return square[0];
@@ -649,11 +725,15 @@ function hasValidMoves(playerColor, boardState){
  function isPlayerUnderCheckMate(playerColor, boardState){
     if(isPlayerUnderCheck(playerColor, boardState) && !(hasValidMoves(playerColor, boardState))){
         console.log(playerColor, "is in checkmate");
+        return true;
     }
+    return false;
  }
 
  function isPlayerUnderStaleMate(playerColor, boardState){
     if(!isPlayerUnderCheck(playerColor, boardState) && !(hasValidMoves(playerColor, boardState))){
         console.log(playerColor, "is in stalemate");
-    }    
+        return true;
+    }
+    return false;    
  }

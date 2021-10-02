@@ -22,7 +22,7 @@ export default function Home() {
   let newNotificationId = 0;
   
   useEffect(()=>{
-    const newSocket = io("ws://localhost:3001", {
+    const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
         reconnectionDelayMax: 10000        
     });
     setSocket(newSocket);

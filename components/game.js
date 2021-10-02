@@ -1,5 +1,6 @@
 import Board from "./board";
 import {useEffect, useState} from "react";
+import Modal from "./modal";
 
 
 const Game = (props) =>{
@@ -7,6 +8,43 @@ const Game = (props) =>{
     const [isStarted, setIsStarted] = useState(false);
     const [pieceInHand, setPieceInHand] = useState();
     const [highlightedSquares, setHighlightedSquares] = useState([]);
+    const [opponentUnderCheckMate, setOpponentUnderCheckMate] = useState(false);
+    const [opponentUnderStaleMate, setOpponentUnderStaleMate] = useState(false);
+    const [playerUnderCheckMate, setPlayerUnderCheckMate] = useState(false);
+    const [playerUnderStaleMate, setPlayerUnderStaleMate] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalClosed, setModalClosed] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+    useEffect(()=>{
+        if(props.socket != null && opponentUnderCheckMate){
+            props.socket.emit("opponentPlayerUnderCheckMate",{
+                gameId: props.gameId,
+                playerColor: (props.playerColor === "white") ? "black" : "white"
+            });
+        }
+    }, [props.socket, opponentUnderCheckMate]);
+
+    useEffect(()=>{
+        if(props.socket != null && opponentUnderStaleMate){
+            props.socket.emit("opponentPlayerUnderStaleMate",{
+                gameId: props.gameId,
+                playerColor: (props.playerColor === "white") ? "black" : "white"
+            });
+        }
+    }, [props.socket, opponentUnderStaleMate]);
+
+    useEffect(()=>{
+        if(props.socket != null){
+            props.socket.on("playerUnderStaleMate", () => {
+                setPlayerUnderStaleMate(true);
+            });
+            props.socket.on("playerUnderCheckMate", () => {
+                setPlayerUnderCheckMate(true);
+            });
+        }
+    },[props.socket]);
+
     useEffect(() => {
         if(pieceInHand){
             const requestOptions = {
@@ -18,7 +56,25 @@ const Game = (props) =>{
             .then(response => setHighlightedSquares(response.possibleSquares));
         }
     }, [pieceInHand]);
-
+    useEffect(() => {
+        if(playerUnderStaleMate || playerUnderCheckMate || opponentUnderCheckMate || opponentUnderStaleMate){
+            if(playerUnderStaleMate || opponentUnderStaleMate){
+                setModalMessage("Game is a draw");
+                setModalTitle("Stalemate");
+            }    
+            if(playerUnderCheckMate){
+                setModalMessage("Ooops! You Lost");
+                setModalTitle("Checkmate");
+            }
+            if(opponentUnderCheckMate){
+                setModalMessage("Woohoo! You won");
+                setModalTitle("Checkmate");
+            }
+            if(!modalClosed)
+                setShowModal(true);
+        }
+    });
+    
     const pieceTouched = (color, type, row, col, hasMoved) => {
         //console.log(color + " "+ type + " was clicked at: ("+ row+","+col+")");
         if(props.turn === props.playerColor){
@@ -56,6 +112,8 @@ const Game = (props) =>{
                         fetch('/api/movePiece', requestOptions)
                         .then(response => response.json())
                         .then(response => {
+                            setOpponentUnderCheckMate(response.opponentUnderCheckMate);
+                            setOpponentUnderStaleMate(response.opponentUnderStaleMate);
                             props.setTurnAndBoardState(response.turn, response.boardState);
                             props.socket.emit("movedPiece", {
                                 gameId: props.gameId,
@@ -96,6 +154,8 @@ const Game = (props) =>{
                 fetch('/api/movePiece', requestOptions)
                 .then(response => response.json())
                 .then(response => {
+                    setOpponentUnderCheckMate(response.opponentUnderCheckMate);
+                    setOpponentUnderStaleMate(response.opponentUnderStaleMate);
                     props.setTurnAndBoardState(response.turn, response.boardState);
                     props.socket.emit("movedPiece", {
                         gameId: props.gameId,
@@ -111,16 +171,18 @@ const Game = (props) =>{
             }     
         }
     }
-    
+    function setCloseModal(){
+        setShowModal(false);
+        setModalClosed(true);
+    }
     return (
     <>
-    <h1>Opponent Name / Email displayed here</h1>
-    <h1>Game status displayed here</h1>
+    
+    {showModal && <Modal message={modalMessage} title={modalTitle} closeModal={setCloseModal}/>}
     <div className="container mx-auto border-8 border-black">
     <Board boardState={props.boardState} pieceTouched={pieceTouched} emptySquareTouched={emptySquareTouched} playerColor={props.playerColor} highlightedSquares={highlightedSquares}/>
     </div>
-    <h1>Our players Name / Email displayed here</h1>
-    {props.playerColor === props.turn ? <div>Your turn. Please make a move.</div> : <div>Opponent's turn. Please wait.</div>}
+    {props.playerColor === props.turn ? <div className="text-2xl font-bold text-green-500">Your turn. Please make a move.</div> : <div className="text-2xl font-bold text-red-500">Opponent's turn. Please wait.</div>}
     </>
     );
 }
