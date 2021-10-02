@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Piece from "./piece";
 
 export default function Square (props){
