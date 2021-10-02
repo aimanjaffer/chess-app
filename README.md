@@ -1,29 +1,31 @@
-# Next.js + Tailwind CSS Example
-
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
-
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
-
-## Preview
-
-Preview the example live on [StackBlitz](http://stackblitz.com/):
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+# Real-time Online Chess App 
+## https://chess-app-neon.vercel.app
+### Built with Next.Js, Firebase for Auth, TailwindCSS, Socket.IO
+#### Hosted on Vercel, Socket.IO (Node.js) server hosted on Heroku
+##### Websocket Server Repo https://github.com/aimanjaffer/chess-websocket-server
+---
+User Stories Covered:
+1) A user should be able to challenge another player to a game by typing their username and pressing a send request button.
+2) A user should see a notification if they recieve a challenge with the requester's name/username and option to accept or decline
+3) User should be assigned either the white or black pieces randomly
+4) Only the user with white pieces should be able to make the first move
+5) On clicking a piece all valid squares that it can move to should be shown
+6) A user should be able to make only valid chess moves and only when it is their turn to play
+7) Once a valid move is made, they should not be able to make any move out of turn
+8) A player should only be able to move a piece if it is theirs. They should not be able to move the opponent's piece
+9) Once a move is made the new piece should replace the piece that was previously on that square. The piece that was previously on the square is captured/dead
+10) Once a move is made the square that the piece was on originally should be cleared of the piece.
+11) Once a move is made, check if the other player has at least one valid move. If not, then perform check for either a stalemate or checkmate
+12) If a stalemate position is reached then the game state should be changed from ongoing to draw
+13) If a checkmate position is reached then the game state is changed to complete and the last player to make a move is the winner.
+14) A piece other than knight should not be able to jump over another piece
+15) If the king is in check the only valid moves are those that move the king to safety or block the check with another piece
+16) If a king is in double check or more then the king is forced to move
+17) A piece that is blocking the king from an attacker cannot be moved
+18) A piece cannot be moved to a square that is occupied by a piece of the same color
+---
+Roadmap:
+1) Add functionality to inform players if their challenge is rejected
+2) Improve the UI design
+3) Functionality for castling, pawn promotion, en passant
+4) Drag and drop pieces instead of clicking
