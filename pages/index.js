@@ -22,8 +22,7 @@ export default function Home() {
   let newNotificationId = 0;
   
   useEffect(()=>{
-    //const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
-      const newSocket = io("wss://chess-app-server.azurewebsites.net", { 
+    const newSocket = io("https://sleepy-cliffs-05801.herokuapp.com", {
         reconnectionDelayMax: 10000        
     });
     setSocket(newSocket);
