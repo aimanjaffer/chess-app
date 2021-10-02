@@ -22,7 +22,8 @@ export default function Home() {
   let newNotificationId = 0;
   
   useEffect(()=>{
-    const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
+    //const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
+      const newSocket = io("wss://chess-app-server.azurewebsites.net", { 
         reconnectionDelayMax: 10000        
     });
     setSocket(newSocket);
