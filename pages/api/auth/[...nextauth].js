@@ -16,11 +16,10 @@ export default NextAuth({
     Providers.Credentials({
       name: 'Email',
       credentials: {
-        username: { label: "Email", type: "email" },
-        password: {  label: "Password", type: "password" }
+        username: { label: "Email", type: "email" }
       },
       async authorize(credentials, req) {
-        const res = await fetch(process.env.NEXTAUTH_URL+"/api/credentialsLogin", {
+        const res = await fetch(process.env.NEXTAUTH_URL + "/api/credentialsLogin", {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }
