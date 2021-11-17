@@ -24,6 +24,7 @@ User Stories Covered:
 17) A piece that is blocking the king from an attacker cannot be moved
 18) A piece cannot be moved to a square that is occupied by a piece of the same color
 19) Added functionality to inform players if their challenge is rejected
+20) Added functionality to inform user if opponent has disconnected
 ---
 Roadmap:
 1) Improve the UI design
