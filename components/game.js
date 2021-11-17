@@ -10,6 +10,7 @@ const Game = (props) =>{
     const [highlightedSquares, setHighlightedSquares] = useState([]);
     const [opponentUnderCheckMate, setOpponentUnderCheckMate] = useState(false);
     const [opponentUnderStaleMate, setOpponentUnderStaleMate] = useState(false);
+    const [opponentDisconnected, setOpponentDisconnected] = useState(false);
     const [playerUnderCheckMate, setPlayerUnderCheckMate] = useState(false);
     const [playerUnderStaleMate, setPlayerUnderStaleMate] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -42,6 +43,10 @@ const Game = (props) =>{
             props.socket.on("playerUnderCheckMate", () => {
                 setPlayerUnderCheckMate(true);
             });
+            props.socket.on("opponentDisconnected", () => {
+                console.log("opponent has disconnected");
+                setOpponentDisconnected(true);
+            })
         }
     },[props.socket]);
 
@@ -57,7 +62,7 @@ const Game = (props) =>{
         }
     }, [pieceInHand]);
     useEffect(() => {
-        if(playerUnderStaleMate || playerUnderCheckMate || opponentUnderCheckMate || opponentUnderStaleMate){
+        if(opponentDisconnected || playerUnderStaleMate || playerUnderCheckMate || opponentUnderCheckMate || opponentUnderStaleMate){
             if(playerUnderStaleMate || opponentUnderStaleMate){
                 setModalMessage("Game is a draw");
                 setModalTitle("Stalemate");
@@ -69,6 +74,10 @@ const Game = (props) =>{
             if(opponentUnderCheckMate){
                 setModalMessage("Woohoo! You won");
                 setModalTitle("Checkmate");
+            }
+            if(opponentDisconnected){
+                setModalMessage("You win");
+                setModalTitle("Your opponent has disconnected");
             }
             if(!modalClosed)
                 setShowModal(true);

@@ -11,7 +11,7 @@ export default function Home() {
   const [session] = useSession();
   if(!session)
     return <Login/>;
-
+  const [rejections, setRejections] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [gameId, setGameId] = useState();
   const [playerColor, setPlayerColor] = useState("");
@@ -20,7 +20,7 @@ export default function Home() {
   const [userEmails, setUserEmails] = useState([]);
   const [socket, setSocket] = useState(null);
   let newNotificationId = 0;
-  
+  let newRejectionId = 0;
   useEffect(()=>{
     const newSocket = io("https://sleepy-cliffs-05801.herokuapp.com", {
         reconnectionDelayMax: 10000        
@@ -44,7 +44,7 @@ export default function Home() {
           id: newNotificationId,
           sender: message.sender
         };
-        setNotifications((notifications)=>{
+        setNotifications((notifications) => {
           return [...notifications, newNotification];
         });
       });
@@ -53,7 +53,15 @@ export default function Home() {
         setGameId(message.gameId);
       });
       socket.on("new-game-request-rejected", (message) => {
-        console.log("Request rejected by: ", message.responder);
+        newRejectionId += 1;
+        let rejectionMessage = "Game Request rejected by: " + message.responder;
+        let rejection = {
+          id: newRejectionId,
+          message: rejectionMessage
+        }
+        setRejections(rejections => {
+          return [...rejections, rejection];
+        })
       });
       socket.on("opponentMovedPiece", (message)=>{
         //console.log("opponent moved piece");
@@ -73,7 +81,7 @@ export default function Home() {
     signOut();
   }
 
-  function challengeHandler(state, challengeSender){
+  function challengeHandler(state, challengeSender, notificationId){
     if(socket != null){
       switch(state){
         case "accept":
@@ -103,6 +111,9 @@ export default function Home() {
           });
           break;
       }
+      setNotifications((notifications) => {
+        return notifications.filter(notification => notification.id !== notificationId);
+      });
     }
   }
   function setTurnAndBoardState(turn, boardState){
@@ -117,15 +128,26 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       Welcome, {session.user.name}
+      <br/>
       You are logged in using: {session.user.email}
+      {rejections && 
+        <ul>
+         {rejections.map((rejection) => {
+           return (
+           <li key={rejection.id}>
+            <p style={{color:"red", fontStyle:"italic"}}>{rejection.message}</p>
+           </li>);
+         })}
+      </ul>
+      }
       {notifications &&
        <ul>
          {notifications.map((notification) => {
            return (
            <li key={notification.id}>
             <p>New challenge received from: {notification.sender}</p>
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={()=> challengeHandler("accept", notification.sender)}>Accept</button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={()=> challengeHandler("reject", notification.sender)}>Reject</button>
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => challengeHandler("accept", notification.sender, notification.id)}>Accept</button>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => challengeHandler("reject", notification.sender, notification.id)}>Reject</button>
            </li>);
          })}
       </ul>

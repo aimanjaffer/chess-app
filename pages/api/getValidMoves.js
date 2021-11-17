@@ -12,8 +12,8 @@ export default function getValidMovesAPI(req, res) {
     let possibleSquares = [];
     //prevent moving pieces that will put the king in check
     //prevent king from moving to a square next to opponent king
-    //TODO: castling, en passant, pawn promotion
     //handle double check, check mate, stalemate
+    //TODO: castling, en passant, pawn promotion
     if(hasValidMoves(pieceColor, boardState)){
         possibleSquares = getMovesForPiece(boardState, pieceRow, pieceCol, pieceColor, pieceInHand, pieceHasMoved, pieceType);
     }
