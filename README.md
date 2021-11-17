@@ -23,9 +23,9 @@ User Stories Covered:
 16) If a king is in double check or more then the king is forced to move
 17) A piece that is blocking the king from an attacker cannot be moved
 18) A piece cannot be moved to a square that is occupied by a piece of the same color
+19) Added functionality to inform players if their challenge is rejected
 ---
 Roadmap:
-1) Add functionality to inform players if their challenge is rejected
-2) Improve the UI design
-3) Functionality for castling, pawn promotion, en passant
-4) Drag and drop pieces instead of clicking
+1) Improve the UI design
+2) Functionality for castling, pawn promotion, en passant
+3) Drag and drop pieces instead of clicking
