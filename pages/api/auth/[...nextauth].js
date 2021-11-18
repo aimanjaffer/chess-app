@@ -14,9 +14,9 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     Providers.Credentials({
-      name: 'Email',
+      name: 'Username',
       credentials: {
-        username: { label: "Email", type: "email" }
+        username: { label: "Username", type: "text" }
       },
       async authorize(credentials, req) {
         const res = await fetch(process.env.NEXTAUTH_URL + "/api/credentialsLogin", {

@@ -23,7 +23,7 @@ export default function Piece (props){
             break;
     } 
     return (
-    <div className="text-center" onClick={() => props.pieceTouched(props.color, props.type, props.row, props.col, props.hasMoved)}>
+    <div className="text-center cursor-pointer" onClick={() => props.pieceTouched(props.color, props.type, props.row, props.col, props.hasMoved)}>
         <Image src={iconpath} alt="me" width="80" height="80" />
     </div>
     );

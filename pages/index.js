@@ -120,6 +120,9 @@ export default function Home() {
     setTurn(turn);
     setBoardState(boardState);
   }
+  function clearNotifications(){
+    setRejections([]);
+  }
 
   return (
     <>
@@ -127,30 +130,36 @@ export default function Home() {
         <title>Chess App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      Welcome, {session.user.name}
-      <br/>
-      You are logged in using: {session.user.email}
-      {rejections && 
-        <ul>
+      <div className="bg-gray-600 rounded-lg p-2 m-2">
+        <h1 className="text-xl text-white">Welcome, {session.user.name}</h1>
+        <h2 className="text-lg text-white">You are logged in using: {session.user.email}</h2>
+      </div>
+      {rejections.length>0 && 
+      <div className="bg-gray-600 rounded-lg p-2 m-2">
+      <ul>
          {rejections.map((rejection) => {
            return (
-           <li key={rejection.id}>
+           <li className="p-2 hover:bg-gray-500 rounded" key={rejection.id}>
             <p style={{color:"red", fontStyle:"italic"}}>{rejection.message}</p>
            </li>);
          })}
       </ul>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={clearNotifications}>Clear Notifications</button>
+      </div>
       }
-      {notifications &&
-       <ul>
-         {notifications.map((notification) => {
-           return (
-           <li key={notification.id}>
-            <p>New challenge received from: {notification.sender}</p>
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => challengeHandler("accept", notification.sender, notification.id)}>Accept</button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => challengeHandler("reject", notification.sender, notification.id)}>Reject</button>
-           </li>);
-         })}
-      </ul>
+      {notifications.length>0 &&
+      <div className="bg-gray-600 rounded-lg p-2 m-2">
+        <ul>
+          {notifications.map((notification) => {
+            return (
+            <li className="p-2 hover:bg-gray-500 rounded" key={notification.id}>
+              <p className="inline pr-2 text-white">New challenge received from: {notification.sender}</p>
+              <button className="mr-2 bg-green-700 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={() => challengeHandler("accept", notification.sender, notification.id)}>Accept</button>
+              <button className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded" onClick={() => challengeHandler("reject", notification.sender, notification.id)}>Reject</button>
+            </li>);
+          })}
+        </ul>
+      </div>
       }
       {!gameId && <AvailableUsers session={session} socket={socket} userEmails={userEmails}/>}
       {gameId && <Game socket={socket} 
