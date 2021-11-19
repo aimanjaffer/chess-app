@@ -191,7 +191,7 @@ const Game = (props) =>{
     <div className="container mx-auto border-8 border-black">
     <Board boardState={props.boardState} pieceTouched={pieceTouched} emptySquareTouched={emptySquareTouched} playerColor={props.playerColor} highlightedSquares={highlightedSquares}/>
     </div>
-    {props.playerColor === props.turn ? <div className="text-2xl font-bold text-green-500">Your turn. Please make a move.</div> : <div className="text-2xl font-bold text-red-500">Opponent's turn. Please wait.</div>}
+    {props.playerColor === props.turn ? <div className="text-2xl font-bold text-green-500 bg-black p-2 m-2 rounded text-center">Your turn. Please make a move.</div> : <div className="text-2xl font-bold text-red-500 bg-black p-2 m-2 rounded text-center">Opponent's turn. Please wait.</div>}
     </>
     );
 }
