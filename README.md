@@ -1,5 +1,6 @@
 # Real-time Online Chess App 
-## https://chess-app-neon.vercel.app
+## [App URL](https://chess-app-neon.vercel.app)
+## [Demo Video](https://drive.google.com/file/d/1fBfefG6TP_iRtIyGvhL5_v9ePL8rGmky/view)
 ### Built with Next.Js, Firebase for Auth, TailwindCSS, Socket.IO
 #### Hosted on Vercel, Socket.IO (Node.js) server hosted on Heroku
 ##### Websocket Server Repo https://github.com/aimanjaffer/chess-websocket-server
